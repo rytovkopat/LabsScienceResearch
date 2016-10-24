@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "valuecell.h"
+#include "dataexception.h"
 
 class ValueGrid
 {

@@ -9,14 +9,14 @@ ValueGrid::ValueGrid() :
 {
 }
 
-ValueGrid::ValueGrid(unsigned int NSectors, unsigned int NCircles, double Radius) :
+ValueGrid::ValueGrid(unsigned int NSectors, unsigned int NCircles, double Radius)
 {
-    if (isnan(Radius) || Radius<=0.0)
-        throw 7; // поставь исключение
+    if (bool(isnan(Radius)) || Radius<=0.0)
+        throw "DataException()"; // поставь исключение
     if (NSectors==0 || NSectors >= 1<<30)
-        throw 8; //
+        throw "DataException()"; //
     if (NCircles==0 || NCircles >= 1<<30)
-        throw 9; //
+        throw "DataException()"; //
     nAngles = NSectors;
     nRadiuses = NCircles;
     maxRadius = Radius;
@@ -32,20 +32,40 @@ ValueGrid::ValueGrid(unsigned int NSectors, unsigned int NCircles, double Radius
 ValueGrid& ValueGrid::setArgs()
 {
     double rad1 = maxRadius / sqrt(nRadiuses);
-    for (angleId = 0; angleId <= 2*nAngles; angleId++)
+    for (unsigned int angleId = 0; angleId <= 2*nAngles; angleId++)
     {
         double an = M_2_PI * angleId / (2*nAngles);
-        for (radiusId = 0; radiusId <= 2*nRadiuses; radiusId++)
+        for (unsigned int radiusId = 0; radiusId <= 2*nRadiuses; radiusId++)
         {
             double rad = (radiusId % 2 == 0)
                          ? rad1 * sqrt(radiusId * 0.5)
                          : rad1 * sqrt(radiusId * 0.5);  // половинные узлы в парадигме основных узлов
                       // : rad1 * (sqrt((radiusId-1)*0.5) + sqrt((radiusId+1)*0.5)) * 0.5;  // половинные узлы в парадигме центра масс ячейки
                       // : rad1 * 2/3 * (radiusId + 0.5*sqrt(radiusId*radiusId-1)) / (sqrt((radiusId-1)*0.5) + sqrt((radiusId+1)*0.5)) // половинные узлы в парадигме средних арифметических
-            gridMatrix[angleId][radiusId].setRadius(rad).setAngle(an);
+            gridMatrix[angleId][radiusId].setRadius(rad);
+            gridMatrix[angleId][radiusId].setAngle(an);
         }
     }
 
     return *this;
 }
 
+double ValueGrid::getRadius_Node(unsigned int radiusAxe, unsigned int angleAxe)
+{
+    if (radiusAxe > nRadiuses)
+        throw "DataException()";
+    if (angleAxe > nAngles)
+        throw "DataException()";
+
+    return gridMatrix[angleAxe*2][radiusAxe*2].getRadius();
+}
+
+double ValueGrid::getAngle_Node(unsigned int radiusAxe, unsigned int angleAxe)
+{
+    if (radiusAxe > nRadiuses)
+        throw "DataException()";
+    if (angleAxe > nAngles)
+        throw "DataException()";
+
+    return gridMatrix[angleAxe*2][radiusAxe*2].getAngle();
+}

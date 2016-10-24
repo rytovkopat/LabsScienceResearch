@@ -1,6 +1,9 @@
 #ifndef VALUECELL_H
 #define VALUECELL_H
 
+#include "appexception.h"
+#include "accessexception.h"
+#include "dataexception.h"
 
 class ValueCell
 {
