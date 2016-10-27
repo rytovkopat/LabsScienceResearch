@@ -17,7 +17,9 @@ public:
 private Q_SLOTS:
     void testValueCellConstruct();
     void testValueCellSetGet();
-    void testValueGrid();
+    void testValueGrid_Node();
+    void testValueGrid_HalfNodeR();
+    void testValueGrid_HalfNodeA();
 };
 
 TestValueGridTest::TestValueGridTest()
@@ -60,15 +62,13 @@ void TestValueGridTest::testValueCellSetGet()
     //QVERIFY2(testCell.isValidArg()==true, "Args initialized, value not");
 }
 
-void TestValueGridTest::testValueGrid()
+void TestValueGridTest::testValueGrid_Node()
 {
     ValueGrid testGrid;
     try
     {
         testGrid = ValueGrid(4, 8, 2.0);
 
-        //QCOMPARE(testGrid.getRadius_Node(1,0), 1.0);
-        printf("%f\n", testGrid.getAngle_Node(1, 1));
         QCOMPARE(testGrid.getAngle_Node(1,3), 3*M_PI/4);
         QCOMPARE(testGrid.getRadius_Node(1,3), 1.0);
     }
@@ -83,9 +83,52 @@ void TestValueGridTest::testValueGrid()
         printf("Caught unexpectable exception!");
         QVERIFY2(false, "Unexpected error");
     }
+}
 
+void TestValueGridTest::testValueGrid_HalfNodeR()
+{
+    ValueGrid testGrid;
+    try
+    {
+        testGrid = ValueGrid(4, 8, 2.0);
 
+        QCOMPARE(testGrid.getAngle_HalfNodeRadius(1,3), 3*M_PI/4);
+        QCOMPARE(testGrid.getRadius_HalfNodeRadius(1,3), sqrt(1.5));
+    }
+    catch (char const* str)
+    {
+        printf("Error: %s\n",str);
 
+        QVERIFY2(false, "Read/write error");
+    }
+    catch (...)
+    {
+        printf("Caught unexpectable exception!");
+        QVERIFY2(false, "Unexpected error");
+    }
+}
+
+void TestValueGridTest::testValueGrid_HalfNodeA()
+{
+    ValueGrid testGrid;
+    try
+    {
+        testGrid = ValueGrid(4, 8, 2.0);
+
+        QCOMPARE(testGrid.getAngle_HalfNodeAngle(1,3), 7*M_PI/8);
+        QCOMPARE(testGrid.getRadius_HalfNodeAngle(1,3), 1.0);
+    }
+    catch (char const* str)
+    {
+        printf("Error: %s\n",str);
+
+        QVERIFY2(false, "Read/write error");
+    }
+    catch (...)
+    {
+        printf("Caught unexpectable exception!");
+        QVERIFY2(false, "Unexpected error");
+    }
 }
 
 QTEST_APPLESS_MAIN(TestValueGridTest)

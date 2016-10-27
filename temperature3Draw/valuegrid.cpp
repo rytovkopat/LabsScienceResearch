@@ -69,3 +69,94 @@ double ValueGrid::getAngle_Node(unsigned int radiusAxe, unsigned int angleAxe)
 
     return gridMatrix[angleAxe*2][radiusAxe*2].getAngle();
 }
+
+double ValueGrid::getValue_Node(unsigned int radiusAxe, unsigned int angleAxe)
+{
+    if (radiusAxe > nRadiuses)
+        throw "DataExceptionR()";
+    if (angleAxe > nAngles)
+        throw "DataExceptionA()";
+
+    try
+    {
+        return gridMatrix[angleAxe*2][radiusAxe*2].getValue();
+    }
+    catch(...)
+    {
+        throw;
+    }
+}
+
+ValueGrid& ValueGrid::setValue_Node(unsigned int radiusAxe, unsigned int angleAxe, double v)
+{
+    if (radiusAxe > nRadiuses)
+        throw "DataExceptionR()";
+    if (angleAxe > nAngles)
+        throw "DataExceptionA()";
+
+    gridMatrix[angleAxe*2][radiusAxe*2].setValue(v);
+    return *this;
+}
+
+ValueGrid& ValueGrid::setValue_HalfNodeAngle(unsigned int radiusAxe, unsigned int angleAxe, double v)
+{
+    if (radiusAxe > nRadiuses)
+        throw "DataExceptionR()";
+    if (angleAxe >= nAngles)
+        throw "DataExceptionA()";
+
+    gridMatrix[angleAxe*2+1][radiusAxe*2].setValue(v);
+    return *this;
+}
+
+ValueGrid& ValueGrid::setValue_HalfNodeRadius(unsigned int radiusAxe, unsigned int angleAxe, double v)
+{
+    if (radiusAxe >= nRadiuses)
+        throw "DataExceptionR()";
+    if (angleAxe > nAngles)
+        throw "DataExceptionA()";
+
+    gridMatrix[angleAxe*2][radiusAxe*2+1].setValue(v);
+    return *this;
+}
+
+double ValueGrid::getAngle_HalfNodeAngle(unsigned int radiusAxe, unsigned int angleAxe)
+{
+    if (radiusAxe > nRadiuses)
+        throw "DataExceptionR()";
+    if (angleAxe >= nAngles)
+        throw "DataExceptionA()";
+
+    return gridMatrix[angleAxe*2+1][radiusAxe*2].getAngle();
+}
+
+double ValueGrid::getRadius_HalfNodeAngle(unsigned int radiusAxe, unsigned int angleAxe)
+{
+    if (radiusAxe > nRadiuses)
+        throw "DataExceptionR()";
+    if (angleAxe >= nAngles)
+        throw "DataExceptionA()";
+
+    return gridMatrix[angleAxe*2+1][radiusAxe*2].getRadius();
+}
+
+double ValueGrid::getAngle_HalfNodeRadius(unsigned int radiusAxe, unsigned int angleAxe)
+{
+    if (radiusAxe >= nRadiuses)
+        throw "DataExceptionR()";
+    if (angleAxe > nAngles)
+        throw "DataExceptionA()";
+
+    return gridMatrix[angleAxe*2][radiusAxe*2+1].getAngle();
+}
+
+double ValueGrid::getRadius_HalfNodeRadius(unsigned int radiusAxe, unsigned int angleAxe)
+{
+    if (radiusAxe >= nRadiuses)
+        throw "DataExceptionR()";
+    if (angleAxe > nAngles)
+        throw "DataExceptionA()";
+
+    return gridMatrix[angleAxe*2][radiusAxe*2+1].getRadius();
+}
+
