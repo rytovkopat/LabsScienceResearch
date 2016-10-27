@@ -9,7 +9,7 @@ class ValueGrid
 {
 public:
     ValueGrid();
-    ValueGrid(unsigned int NSectors, unsigned int NCircles, double Radius);
+    ValueGrid(unsigned int NCircles, unsigned int NSectors, double Radius);
     //ValueGrid(const ValueGrid& Source, int MultAngle, int MultRadius);
     //ValueGrid(const ValueGrid& source);
 

@@ -65,15 +65,17 @@ void TestValueGridTest::testValueGrid()
     ValueGrid testGrid;
     try
     {
-        testGrid = ValueGrid(2, 4, 2.0);
-        QCOMPARE(testGrid.getRadius_Node(1,0), 1.0);
-        QCOMPARE(testGrid.getAngle_Node(1,3), 3*M_PI_4);
+        testGrid = ValueGrid(4, 8, 2.0);
+
+        //QCOMPARE(testGrid.getRadius_Node(1,0), 1.0);
+        printf("%f\n", testGrid.getAngle_Node(1, 1));
+        QCOMPARE(testGrid.getAngle_Node(1,3), 3*M_PI/4);
+        QCOMPARE(testGrid.getRadius_Node(1,3), 1.0);
     }
     catch (char const* str)
     {
-        if (strcmp(str, "AccessException"))
-            printf("error while initializing!");
-        else printf("error while reading!");
+        printf("Error: %s\n",str);
+
         QVERIFY2(false, "Read/write error");
     }
     catch (...)

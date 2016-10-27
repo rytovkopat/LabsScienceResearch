@@ -35,7 +35,7 @@ double ValueCell::getValue()
 
 ValueCell& ValueCell::setAngle(double a)
 {
-    if (bool(isnan(a)) || a<0.0 || a>M_2_PI)
+    if (bool(isnan(a)) || a<0.0 || a>2*M_PI)
         throw "DataException"; // поставь исключение
     angle = a;
     isAngleValid = true;

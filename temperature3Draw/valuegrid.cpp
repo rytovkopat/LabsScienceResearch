@@ -9,14 +9,14 @@ ValueGrid::ValueGrid() :
 {
 }
 
-ValueGrid::ValueGrid(unsigned int NSectors, unsigned int NCircles, double Radius)
+ValueGrid::ValueGrid(unsigned int NCircles, unsigned int NSectors, double Radius)
 {
     if (bool(isnan(Radius)) || Radius<=0.0)
-        throw "DataException()"; // поставь исключение
+        throw "DataException1()"; // поставь исключение
     if (NSectors==0 || NSectors >= 1<<30)
-        throw "DataException()"; //
+        throw "DataException2()"; //
     if (NCircles==0 || NCircles >= 1<<30)
-        throw "DataException()"; //
+        throw "DataException3()"; //
     nAngles = NSectors;
     nRadiuses = NCircles;
     maxRadius = Radius;
@@ -34,7 +34,7 @@ ValueGrid& ValueGrid::setArgs()
     double rad1 = maxRadius / sqrt(nRadiuses);
     for (unsigned int angleId = 0; angleId <= 2*nAngles; angleId++)
     {
-        double an = M_2_PI * angleId / (2*nAngles);
+        double an = M_PI * angleId / (nAngles);
         for (unsigned int radiusId = 0; radiusId <= 2*nRadiuses; radiusId++)
         {
             double rad = (radiusId % 2 == 0)
@@ -53,9 +53,9 @@ ValueGrid& ValueGrid::setArgs()
 double ValueGrid::getRadius_Node(unsigned int radiusAxe, unsigned int angleAxe)
 {
     if (radiusAxe > nRadiuses)
-        throw "DataException()";
+        throw "DataExceptionR()";
     if (angleAxe > nAngles)
-        throw "DataException()";
+        throw "DataExceptionA()";
 
     return gridMatrix[angleAxe*2][radiusAxe*2].getRadius();
 }
@@ -63,9 +63,9 @@ double ValueGrid::getRadius_Node(unsigned int radiusAxe, unsigned int angleAxe)
 double ValueGrid::getAngle_Node(unsigned int radiusAxe, unsigned int angleAxe)
 {
     if (radiusAxe > nRadiuses)
-        throw "DataException()";
+        throw "DataExceptionR()";
     if (angleAxe > nAngles)
-        throw "DataException()";
+        throw "DataExceptionA()";
 
     return gridMatrix[angleAxe*2][radiusAxe*2].getAngle();
 }
